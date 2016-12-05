@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			#box {
+				width: 100px;
+				height: 100px;
+				position: absolute;
+				left: 100px;
+				top: 100px;
+				background: red;
+			}
+		</style>
+		<script src="../js/aTween.js"></script>
+		<script>
+			function shake(el,attr,second,callBack) {  // toShake(元素，样式名，抖动次数,回调函数)
+				if(timer) { // 如果定时器执行了，就停止执行后面的代码
+					return;
+				}
+				var b = css(el,attr); // 获取css里的设置的初始值
+				var arr = []; // 定义一个数组，用来记录抖动时的距离9、-8、7、-6……
+				var nub = 0; // 定义变量，用来记录当前抖动是第几次
+				var timer = 0;
+				for(var i = second-1; i >= 0; i--) { //循环，定义变量 i = 抖动总次数-1，如果i>0, 让i--
+					i%2?arr.push(i):arr.push(-i); // 判断如果结果为偶数，就在数组的后面添加上当前的i,如果为奇数，就在数组的后面添加当前的-i
+				}
+				timer = setInterval( // 设置间隔定时器
+					function() {
+						if(nub > second-1) {  // 如果nub > 抖动总次数-1
+							clearInterval(timer); // 就让定时器停止
+						} else {
+							var val = b + arr[nub]; // 定义变量val 让值等于初始的样式值 加上数组的第几位
+							css(el,attr,val); // 给样式赋值
+							nub++; // 让nub的值++
+							callBack&&callBack();  // 执行回调函数
+						}
+					},40
+				);
+				
+			}
+			window.onload = function() {
+				var box = getId('box');
+				box.onclick = function() {
+					shake(box,"left",10,function(){
+						mTween(box,{top:300,opacity:0},200,"linear"); // 当抖动执行完之后，让box掉落下来，透明度变为0
+					});
+				};
+				
+			};
+		</script>
+	</head>
+	<body>
+		<div id="box"></div>
+	</body>
+</html>

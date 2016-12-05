@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			#box {
+				width: 100px;
+				height: 100px;
+				position: absolute;
+				left: 100px;
+				top: 100px;
+				background: red;
+			}
+		</style>
+		<script src="../js/aTween.js"></script>
+		<script>
+			function shake(el,attr,second) {
+				if(timer) {
+					return;
+				}
+				var b = css(el,attr);
+				var arr = [];
+				var nub = 0;
+				var timer = 0;
+				for(var i = second-1; i >= 0; i--) {
+					i%2?arr.push(i):arr.push(-i);
+				}
+				timer = setInterval(
+					function() {
+						if(nub > second-1) {
+							clearInterval(timer);
+						} else {
+							var val = b + arr[nub];
+							css(el,attr,val);
+							nub++;
+						}
+					},40
+				);
+				
+			}
+			window.onload = function() {
+				var box = getId('box');
+				box.onclick = function() {
+					shake(box,"left",10);
+				};
+				
+			};
+		</script>
+	</head>
+	<body>
+		<div id="box"></div>
+	</body>
+</html>

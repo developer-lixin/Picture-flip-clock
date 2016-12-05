@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			html {
+				height: 100%;
+			}
+			body {
+				height: 100%;
+				margin: 0;
+				background: url(../img/bg.png) no-repeat center center;
+			}
+			#box {
+				width: 520px;
+				height: 520px;
+				position: absolute;
+				left: 50%;
+				top: 50%;
+				margin: -260px -260px;
+				text-align: center;
+			}
+			#title {
+				display: block;
+				margin: 20px auto;
+			}
+			img {
+				margin: 20px 0;
+				vertical-align: middle;
+			}
+			.date {
+				width: 25px;
+				height: 37px;
+			}
+			#day1 {
+				width: 38px;
+				height: 36px;
+			}
+		</style>
+		<script src="../js/aTween.js"></script>
+		<script>
+			window.onload = function() {
+				var date3 = document.getElementsByClassName('date');
+				var day1 = document.getElementById('day1');
+				// debugger;  检查错误的方法，不报错也能检查，叫断点
+				var timer = 0;
+				var arr1 = [
+						"seven",
+						"one",
+						"two",
+						"three",
+						"four",
+						"five",
+						"six"
+					]
+				for(var i = 0; i < date3.length; i++) {
+					date3[i].nowImg = 0;
+				}
+				day1.nowImg = 0;
+				setTime();
+				setInterval(setTime,1000);
+				function setTime() {
+					var date = new Date();
+					var year = date.getFullYear();
+					var month = fro(date.getMonth() + 1);
+					var date2 = fro(date.getDate());
+					var hours = fro(date.getHours());
+					var minu = fro(date.getMinutes());
+					var seconds = fro(date.getSeconds());
+					var time = year+month+date2+hours+minu+seconds;
+					var day = date.getDay();
+					for(var i = 0; i < date3.length; i++) {
+						if(date3[i].nowImg != time[i]){
+							date3[i].nowImg = time[i]
+							move(date3[i],date3[i].nowImg);
+						}
+					}
+					if(day1.nowImg != day){
+						day1.nowImg = day;
+						move(day1,arr1[day]);
+					}
+					//day1.src = "../img/"+arr1[day]+".png";
+				}
+				function fro(nub) {
+					return nub < 10 ? "0" + nub:"" + nub; 
+				}
+				function move(el,attr) {
+					for(var i = 0; i < date3.length; i++) {
+						el.src = "../img/"+attr+".png";
+						mTween(el,{height:0},500,"linear",function(){
+							mTween(el,{height:37},500,"linear");
+						});
+					}
+				}
+			};
+		</script>
+	</head>
+	<body>
+		<div id="box">
+			<img src="../img/title.png" id="title"/>
+			<img src="../img/0.png" class="date"/>
+			<img src="../img/0.png" class="date"/>
+			<img src="../img/0.png" class="date"/>
+			<img src="../img/0.png" class="date"/>
+			<img src="../img/year.png"/>
+			<img src="../img/0.png" class="date"/>
+			<img src="../img/0.png" class="date"/>
+			<img src="../img/month.png"/>
+			<img src="../img/0.png" class="date"/>
+			<img src="../img/0.png" class="date"/>
+			<img src="../img/seven.png" />
+			<br />
+			<img src="../img/0.png" class="date"/>
+			<img src="../img/0.png" class="date"/>
+			<img src="../img/sign.png" />
+			<img src="../img/0.png" class="date"/>
+			<img src="../img/0.png" class="date"/>
+			<img src="../img/sign.png" />
+			<img src="../img/0.png" class="date"/>
+			<img src="../img/0.png" class="date"/>
+			<br />
+			<img src="../img/week.png" />
+			<img src="../img/four.png" id="day1"/>
+		</div>
+	</body>
+</html>
